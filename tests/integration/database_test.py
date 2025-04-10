@@ -42,14 +42,16 @@ class TestDatabaseIntegration:
         Test to create a table and query it to ensure basic database operations work.
         """
         with db_instance.get_new_session() as session:
-            session.execute(text(
-                "CREATE TABLE test_table_export_units (id INT PRIMARY KEY, name NVARCHAR(50))"
-            ))
-            session.execute(
-                text("INSERT INTO test_table_export_units (id, name) VALUES (1, 'Test')")
-            )
-            result = session.execute(
-                text("SELECT name FROM test_table_export_units WHERE id=1")).fetchone()
-            # Delete the table
-            session.execute(text("DROP TABLE test_table_export_units"))
-            assert result[0] == 'Test'
+            try:
+                session.execute(text(
+                    "CREATE TABLE test_table_export_units (id INT PRIMARY KEY, name NVARCHAR(50))"
+                ))
+                session.execute(
+                    text("INSERT INTO test_table_export_units (id, name) VALUES (1, 'Test')")
+                )
+                result = session.execute(
+                    text("SELECT name FROM test_table_export_units WHERE id=1")).fetchone()
+                assert result[0] == 'Test'
+            finally:
+                # Ensure the table is dropped even if an exception occurs
+                session.execute(text("DROP TABLE test_table_export_units"))
