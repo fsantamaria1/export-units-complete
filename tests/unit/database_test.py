@@ -18,10 +18,10 @@ class TestDatabaseUnit:
         Fixture to create a Database instance for testing.
         """
         with patch.dict(os.environ, {
-            'DB_SERVER': 'localhost',
-            'DB_NAME': 'test_db',
-            'DB_USERNAME': 'test_user',
-            'DB_PASSWORD': 'test_password',
+            'SQL_SERVER': 'localhost',
+            'SQL_DATABASE': 'test_db',
+            'SQL_USERNAME': 'test_user',
+            'SQL_PASSWORD': 'test_password',
         }):
             return Database()
 
