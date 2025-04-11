@@ -19,8 +19,6 @@ def run_stored_procedure(schema, procedure_name):
         raise ValueError("Invalid schema or procedure name")
 
     db = Database()
-    session = db.get_new_session()
-
-    session.execute(text(f"EXEC {schema}.{procedure_name}"))
-    session.commit()
-    db.close()
+    with db.get_new_session() as session:
+        session.execute(text(f"EXEC {schema}.{procedure_name}"))
+        session.commit()
