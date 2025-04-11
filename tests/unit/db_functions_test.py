@@ -18,12 +18,14 @@ class TestDbFunctionsUnit:
         schema = "ValidSchema"
         procedure_name = "ValidProcedure"
         mock_session = MagicMock()
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_session
+        mock_context.__exit__.return_value = None
 
-        with patch.object(Database, 'get_new_session', return_value=mock_session):
+        with patch.object(Database, 'get_new_session', return_value=mock_context):
             run_stored_procedure(schema, procedure_name)
 
-        # Extract the actual SQL string passed to execute
-        actual_sql = mock_session.execute.call_args[0][0].text # noqa
+        actual_sql = mock_session.execute.call_args[0][0].text
         expected_sql = "EXEC ValidSchema.ValidProcedure"
 
         assert actual_sql == expected_sql
