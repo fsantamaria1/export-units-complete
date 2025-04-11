@@ -4,30 +4,34 @@ This module contains unit tests for the database functions.
 from unittest.mock import MagicMock, patch
 import pytest
 from resources.db_functions import run_stored_procedure
-from resources.database import Database
 
 
 class TestDbFunctionsUnit:
     """
     Class to contain the unit tests for the database functions.
     """
-    def test_call_stored_procedure_with_valid_inputs(self):
+
+    @patch("resources.database.Config")
+    @patch("resources.database.Database._create_engine")
+    def test_call_stored_procedure_with_valid_inputs(self, _mock_create_engine, _mock_config):
         """
-        Test calling a stored procedure with valid schema and procedure name.
+            Test that run_stored_procedure calls the procedure and commits the session.
         """
         schema = "ValidSchema"
         procedure_name = "ValidProcedure"
+
         mock_session = MagicMock()
         mock_context = MagicMock()
         mock_context.__enter__.return_value = mock_session
         mock_context.__exit__.return_value = None
 
-        with patch.object(Database, 'get_new_session', return_value=mock_context):
+        # Also patch get_new_session, so it doesn't attempt to bind anything real
+        with patch("resources.database.Database.get_new_session", return_value=mock_context):
             run_stored_procedure(schema, procedure_name)
 
+        # Assert the procedure was executed
         actual_sql = mock_session.execute.call_args[0][0].text
-        expected_sql = "EXEC ValidSchema.ValidProcedure"
-
+        expected_sql = f"EXEC {schema}.{procedure_name}"
         assert actual_sql == expected_sql
         mock_session.commit.assert_called_once()
 
