@@ -42,16 +42,16 @@ class UnitsCompleteExport(Base):
         """
         Returns the notes for the UnitsCompleteExport object.
         """
-        notes = ""
+        notes = []
         if self.timesheet_id:
-            notes += f"Timesheet ID: {self.timesheet_id} "
+            notes.append(f"Timesheet ID: {self.timesheet_id}")
         if self.change_order_id:
-            notes += f"Change Order ID: {self.change_order_id} "
+            notes.append(f"Change Order ID: {self.change_order_id}")
         if self.sub_report_id:
-            notes += f"Sub Report ID: {self.sub_report_id} "
+            notes.append(f"Sub Report ID: {self.sub_report_id}")
         if self.vendor_name:
-            notes += f"Vendor Name: {self.vendor_name} "
-        return notes
+            notes.append(f"Vendor Name: {self.vendor_name}")
+        return " ".join(notes)
 
     def __repr__(self):
         """
