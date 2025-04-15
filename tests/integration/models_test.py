@@ -11,7 +11,7 @@ class TestUnitsCompleteExport:
     Integration tests for the UnitsCompleteExport model.
     """
 
-    def test_units_complete_export_valid(
+    def test_export_valid(
             self,
             db_session,
             valid_units_complete_export: UnitsCompleteExport):
@@ -47,7 +47,7 @@ class TestUnitsCompleteExport:
             ("unit_change", None),
         ],
     )
-    def test_units_complete_export_with_null_non_nullables(
+    def test_export_with_null_non_nullables(
             self,
             db_session,
             valid_units_complete_export: UnitsCompleteExport,
