@@ -55,3 +55,4 @@ class TestDatabaseIntegration:
             finally:
                 # Ensure the table is dropped even if an exception occurs
                 session.execute(text("DROP TABLE test_table_export_units"))
+                session.commit()
