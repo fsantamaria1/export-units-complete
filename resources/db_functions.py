@@ -7,12 +7,13 @@ from resources.database import Database
 from resources.models import UnitsCompleteExport
 
 
-def run_stored_procedure(schema, procedure_name):
+def run_stored_procedure(schema, procedure_name) -> int:
     """
     Calls the specified stored procedure using the current database engine.
 
     :param schema: The name of the schema where the procedure is stored
     :param procedure_name: The name of the stored procedure to call
+    :return: The number of affected rows
     """
     # Validate schema and procedure_name
     if not schema or not procedure_name:
@@ -22,8 +23,19 @@ def run_stored_procedure(schema, procedure_name):
 
     db = Database()
     with db.get_new_session() as session:
-        session.execute(text(f"EXEC {schema}.{procedure_name}"))
-        session.commit()
+        # Execute the stored procedure
+        result = session.execute(text(f"EXEC [{schema}].[{procedure_name}]"))
+
+        # Fetch only the first row
+        row = result.fetchone()
+        if row:
+            # Access the first column of the row
+            affected_rows = row[0]
+            return affected_rows
+        else:
+            print("No rows were returned.")
+            # Return 0 if no rows are present
+            return 0
 
 
 def fetch_latest_units_export() -> UnitsCompleteExport:
