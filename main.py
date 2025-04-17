@@ -40,7 +40,10 @@ def main():
         # Initialize the database
         initialize_database()
 
-        affected_rows = run_stored_procedure(os.environ.get('schema_name'), os.environ.get('stored_procedure_name'))
+        affected_rows = run_stored_procedure(
+            os.environ.get('schema_name'),
+            os.environ.get('stored_procedure_name')
+        )
         logging.info("Stored procedure executed successfully")
         logging.info("Number of affected rows: %d", affected_rows)
 
