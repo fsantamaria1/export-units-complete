@@ -28,6 +28,10 @@ def run_stored_procedure(schema, procedure_name) -> int:
 
         # Fetch only the first row
         row = result.fetchone()
+
+        # Commit the session
+        session.commit()
+
         if row:
             # Access the first column of the row
             affected_rows = row[0]
