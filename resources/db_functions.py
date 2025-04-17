@@ -32,10 +32,8 @@ def run_stored_procedure(schema, procedure_name) -> int:
             # Access the first column of the row
             affected_rows = row[0]
             return affected_rows
-        else:
-            print("No rows were returned.")
-            # Return 0 if no rows are present
-            return 0
+        # Return 0 if no rows are present
+        return 0
 
 
 def fetch_latest_units_export() -> UnitsCompleteExport:
