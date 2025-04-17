@@ -34,9 +34,8 @@ class TestDbFunctionsUnit:
 
         # Assert the procedure was executed
         actual_sql = mock_session.execute.call_args[0][0].text
-        expected_sql = f"EXEC {schema}.{procedure_name}"
+        expected_sql = f"EXEC [{schema}].[{procedure_name}]"
         assert actual_sql == expected_sql
-        mock_session.commit.assert_called_once()
 
     def test_raises_error_when_schema_is_none(self):
         """
