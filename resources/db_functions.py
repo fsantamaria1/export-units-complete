@@ -2,6 +2,7 @@
 Contains functions to interact with the database.
 """
 from datetime import timedelta
+from typing import List
 from sqlalchemy import text
 from resources.database import Database
 from resources.models import UnitsCompleteExport
@@ -56,7 +57,7 @@ def fetch_latest_units_export() -> UnitsCompleteExport:
         return latest_export
 
 
-def fetch_units_by_date(date) -> list[UnitsCompleteExport]:
+def fetch_units_by_date(date) -> List[UnitsCompleteExport]:
     """
     Fetches the UnitsCompleteExport record for a specific date.
     """
