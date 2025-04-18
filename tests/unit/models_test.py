@@ -2,7 +2,7 @@
 This module contains tests for the models in the resources package
 """
 import pytest
-from resources.models import UnitsCompleteExport
+from tests.utils import create_units_complete_export
 
 
 class TestUnitsCompleteExport:
@@ -15,19 +15,7 @@ class TestUnitsCompleteExport:
         """
         Fixture to create a valid UnitsCompleteExport instance.
         """
-        return UnitsCompleteExport(
-            export_id=1,
-            job_number="123456",
-            job_date="2023-10-01",
-            phase_number="Phase",
-            category_number="Category",
-            unit_change=100,
-            timesheet_id=1,
-            change_order_id=1,
-            sub_report_id=1,
-            vendor_name="Vendor",
-            date_created="2023-10-01 00:00:00",
-        )
+        return create_units_complete_export()
 
     def test_units_complete_export_with_valid_attributes(self, valid_export):
         """
