@@ -7,8 +7,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from resources.config import Config
-
+from resources.database import Database
 from resources.models import UnitsCompleteExport
+from tests.utils import create_units_complete_export
 
 # Create a single engine for the entire test suite
 engine = create_engine(Config().sqlalchemy_database_uri, echo=True)
@@ -60,16 +61,14 @@ def valid_units_complete_export_fixture():
     """
     # Generate a unique primary key for the UnitsCompleteExport object
     export_id = generate_unique_primary_key(UnitsCompleteExport, UnitsCompleteExport.export_id)
-    return UnitsCompleteExport(
-        export_id=export_id,
-        job_number="123456",
-        job_date="2023-10-01",
-        phase_number="Phase",
-        category_number="Category",
-        unit_change=100,
-        timesheet_id=1,
-        change_order_id=1,
-        sub_report_id=1,
-        vendor_name="Vendor",
-        date_created="2023-10-01 00:00:00",
-    )
+    return create_units_complete_export(export_id=export_id)
+
+
+@pytest.fixture(scope="module")
+def db_instance():
+    """
+    Fixture to create a Database instance connected to the actual database.
+    """
+    db = Database()
+    yield db
+    db.close()
