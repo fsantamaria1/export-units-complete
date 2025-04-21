@@ -45,7 +45,8 @@ class TestUnitsCompleteExport:
             "phase_number": "Phase",
             "category_number": "Category",
             "unit_change": 100,
-            "notes": export.get_notes()
+            "notes": export.get_notes(),
+            "cost_code": export.get_cost_code(),
         }
         assert export.to_dict() == expected_dict
 
