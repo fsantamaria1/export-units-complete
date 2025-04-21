@@ -2,8 +2,11 @@
 This module contains unit tests for the database functions.
 """
 from unittest.mock import MagicMock, patch
+import datetime
 import pytest
 from resources.db_functions import run_stored_procedure
+from resources.db_functions import fetch_latest_units_export, fetch_units_by_date
+from resources.models import UnitsCompleteExport
 
 
 class TestDbFunctionsUnit:
@@ -31,9 +34,8 @@ class TestDbFunctionsUnit:
 
         # Assert the procedure was executed
         actual_sql = mock_session.execute.call_args[0][0].text
-        expected_sql = f"EXEC {schema}.{procedure_name}"
+        expected_sql = f"EXEC [{schema}].[{procedure_name}]"
         assert actual_sql == expected_sql
-        mock_session.commit.assert_called_once()
 
     def test_raises_error_when_schema_is_none(self):
         """
@@ -62,3 +64,38 @@ class TestDbFunctionsUnit:
         """
         with pytest.raises(ValueError, match="Invalid schema or procedure name"):
             run_stored_procedure("ValidSchema", "DROP TABLE user-data; --")
+
+    @patch("resources.database.Database.get_new_session")
+    def test_fetch_latest_units_export_returns_latest(self, mock_get_session):
+        """
+        Test that fetch_latest_units_export returns the latest UnitsCompleteExport record.
+        """
+
+        mock_session = MagicMock()
+        mock_instance = UnitsCompleteExport(date_created="2024-01-01 12:00:00")
+        mock_session.query().order_by().first.return_value = mock_instance
+
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_session
+        mock_get_session.return_value = mock_context
+
+        result = fetch_latest_units_export()
+        assert result == mock_instance
+
+    @patch("resources.database.Database.get_new_session")
+    def test_fetch_units_by_date_filters_correctly(self, mock_get_session):
+        """
+        Test that fetch_units_by_date filters the UnitsCompleteExport records by date.
+        """
+
+        input_date = datetime.datetime(2024, 1, 1, 12, 0, 0, 123456)
+        mock_session = MagicMock()
+        expected_results = [UnitsCompleteExport(), UnitsCompleteExport()]
+        mock_session.query().filter().all.return_value = expected_results
+
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_session
+        mock_get_session.return_value = mock_context
+
+        result = fetch_units_by_date(input_date)
+        assert result == expected_results

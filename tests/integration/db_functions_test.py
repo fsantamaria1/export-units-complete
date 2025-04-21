@@ -6,22 +6,12 @@ from sqlalchemy import text
 from sqlalchemy.exc import ProgrammingError
 
 from resources.db_functions import run_stored_procedure
-from resources.database import Database
 
 
 class TestDbFunctionsIntegration:
     """
     Class to contain the integration tests for the database functions.
     """
-
-    @pytest.fixture(scope="module")
-    def db_instance(self):
-        """
-        Fixture to create a Database instance connected to the actual database.
-        """
-        db = Database()
-        yield db
-        db.close()
 
     @pytest.fixture(scope="module")
     def setup_test_procedure(self, db_instance):

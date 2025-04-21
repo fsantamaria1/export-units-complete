@@ -4,22 +4,12 @@ This module contains integration tests for the Database class.
 import pytest
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError, ProgrammingError, SQLAlchemyError
-from resources.database import Database
 
 
 class TestDatabaseIntegration:
     """
     Test class for the Database class.
     """
-
-    @pytest.fixture(scope="module")
-    def db_instance(self):
-        """
-        Fixture to create a Database instance connected to MS SQL database.
-        """
-        db = Database()
-        yield db
-        db.close()
 
     @pytest.fixture(scope="module")
     def connection_successful(self, db_instance):
@@ -55,3 +45,4 @@ class TestDatabaseIntegration:
             finally:
                 # Ensure the table is dropped even if an exception occurs
                 session.execute(text("DROP TABLE test_table_export_units"))
+                session.commit()

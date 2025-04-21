@@ -1,7 +1,6 @@
 """
 This module contains unit tests for the database module.
 """
-import os
 from unittest.mock import patch
 import pytest
 from resources.database import Database
@@ -17,13 +16,7 @@ class TestDatabaseUnit:
         """
         Fixture to create a Database instance for testing.
         """
-        with patch.dict(os.environ, {
-            'SQL_SERVER': 'localhost',
-            'SQL_DATABASE': 'test_db',
-            'SQL_USERNAME': 'test_user',
-            'SQL_PASSWORD': 'test_password',
-        }):
-            return Database()
+        return Database()
 
     def test_init(self, db_instance):
         """
