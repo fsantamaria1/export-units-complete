@@ -35,6 +35,7 @@ class UnitsCompleteExport(Base):
         fields = ['job_date', 'job_number', 'phase_number', 'category_number', 'unit_change']
         data = {field: getattr(self, field) for field in fields}
         data['notes'] = self.get_notes()
+        data['cost_code'] = self.get_cost_code()
 
         return data
 
@@ -52,6 +53,12 @@ class UnitsCompleteExport(Base):
         if self.vendor_name:
             notes.append(f"Vendor Name: {self.vendor_name}")
         return " ".join(notes)
+
+    def get_cost_code(self):
+        """
+        Returns the cost code for the UnitsCompleteExport object.
+        """
+        return f"{self.job_number}.{self.phase_number}.{self.category_number}"
 
     def __repr__(self):
         """
