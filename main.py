@@ -55,7 +55,7 @@ def main():
 
             if not latest_record:
                 logging.warning("No UnitsCompleteExport records found.")
-                return
+                return 0
 
             latest_date = latest_record.date_created
             logging.info("Latest units complete record date: %s", latest_date)
@@ -88,9 +88,10 @@ def main():
 
             logging.info("CSV file created successfully: %s", csv_file_path)
             logging.info("number of records: %d", len(units_completed_data))
-        else:
-            logging.warning("No rows were affected by the stored procedure execution.")
-            logging.info("No data to process.")
+            return affected_rows
+        logging.warning("No rows were affected by the stored procedure execution.")
+        logging.info("No data to process.")
+        return 0
 
     except Exception as e:
         logging.error("An error occurred: %s", e)
