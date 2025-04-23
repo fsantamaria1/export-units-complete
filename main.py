@@ -35,14 +35,6 @@ def main():
         logging.info("Stored procedure executed successfully")
         logging.info("Number of affected rows: %d", affected_rows)
 
-        # Get the latest units complete export
-        latest_record = fetch_latest_units_export()
-
-        logging.info("Latest units complete record date: %s", latest_record.date_created)
-
-        latest_date = latest_record.date_created
-        logging.info("Latest units complete record date: %s", latest_date)
-
         # Run rest of the script if affected_rows > 0
         if affected_rows > 0:
 
