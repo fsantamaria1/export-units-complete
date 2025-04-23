@@ -1,6 +1,7 @@
 """
 Contains functions to interact with the database.
 """
+import os
 from datetime import timedelta
 from typing import List
 from sqlalchemy import text
@@ -8,7 +9,10 @@ from resources.database import Database
 from resources.models import UnitsCompleteExport
 
 
-def run_stored_procedure(schema, procedure_name) -> int:
+def run_stored_procedure(
+        schema=os.environ.get('schema_name'),
+        procedure_name=os.environ.get('stored_procedure_name')
+) -> int:
     """
     Calls the specified stored procedure using the current database engine.
 
