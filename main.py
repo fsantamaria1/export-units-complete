@@ -3,28 +3,17 @@ This script will to run daily and create a CSV from data from the MS SQL databas
 """
 import os
 import logging
-from os.path import dirname, join
-from dotenv import load_dotenv
 import pandas as pd
 from resources.db_functions import (
     run_stored_procedure,
     fetch_latest_units_export,
     fetch_units_by_date
 )
-from resources.database import Database
+from resources.database import initialize_database
 
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-
-def initialize_database():
-    """
-    Initialize the database and create the tables.
-    """
-    db = Database()
-    db.create_tables()
-    logging.info("Database initialized and tables created")
 
 
 def main():
@@ -33,19 +22,26 @@ def main():
     """
     try:
 
-        # Load environment variables
-        dotenv_path = join(dirname(__file__), '.env')
-        load_dotenv(dotenv_path)
+        logging.info("Environment variables loaded successfully")
+        logging.info("SQL_SERVER: %s", os.getenv('SQL_SERVER'))
+        logging.info("SQL_USERNAME: %s", os.getenv('SQL_USERNAME'))
+        logging.info("SQL_PASSWORD: %s", os.getenv('SQL_PASSWORD'))
+        logging.info("SQL_DATABASE: %s", os.getenv('SQL_DATABASE'))
 
         # Initialize the database
         initialize_database()
 
-        affected_rows = run_stored_procedure(
-            os.environ.get('schema_name'),
-            os.environ.get('stored_procedure_name')
-        )
+        affected_rows = run_stored_procedure()
         logging.info("Stored procedure executed successfully")
         logging.info("Number of affected rows: %d", affected_rows)
+
+        # Get the latest units complete export
+        latest_record = fetch_latest_units_export()
+
+        logging.info("Latest units complete record date: %s", latest_record.date_created)
+
+        latest_date = latest_record.date_created
+        logging.info("Latest units complete record date: %s", latest_date)
 
         # Run rest of the script if affected_rows > 0
         if affected_rows > 0:
