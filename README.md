@@ -110,6 +110,6 @@ Project Structure
 ├── .env.example             # Example environment variables file
 ├── requirements.txt         # Python dependencies
 ├── ui.py                    # User interface to run the script manually
-├── .build_ui.py             # Create .exe file for the UI
+├── build_ui.py             # Create .exe file for the UI
 └── README.md                # Project documentation
 ```
