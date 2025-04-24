@@ -22,12 +22,6 @@ def main():
     """
     try:
 
-        logging.info("Environment variables loaded successfully")
-        logging.info("SQL_SERVER: %s", os.getenv('SQL_SERVER'))
-        logging.info("SQL_USERNAME: %s", os.getenv('SQL_USERNAME'))
-        logging.info("SQL_PASSWORD: %s", os.getenv('SQL_PASSWORD'))
-        logging.info("SQL_DATABASE: %s", os.getenv('SQL_DATABASE'))
-
         # Initialize the database
         initialize_database()
 
