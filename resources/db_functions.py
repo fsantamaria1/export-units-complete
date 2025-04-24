@@ -1,6 +1,7 @@
 """
 Contains functions to interact with the database.
 """
+import os
 from datetime import timedelta
 from typing import List
 from sqlalchemy import text
@@ -8,14 +9,22 @@ from resources.database import Database
 from resources.models import UnitsCompleteExport
 
 
-def run_stored_procedure(schema, procedure_name) -> int:
+def run_stored_procedure(
+        schema: str = None,
+        procedure_name: str = None
+) -> int:
     """
     Calls the specified stored procedure using the current database engine.
 
     :param schema: The name of the schema where the procedure is stored
     :param procedure_name: The name of the stored procedure to call
     :return: The number of affected rows
+    :raises ValueError: If the schema or procedure name is invalid
     """
+    # Get schema and procedure name from environment variables if not provided
+    schema = schema or os.environ.get('schema_name')
+    procedure_name = procedure_name or os.environ.get('stored_procedure_name')
+
     # Validate schema and procedure_name
     if not schema or not procedure_name:
         raise ValueError("Schema and procedure name must be provided.")

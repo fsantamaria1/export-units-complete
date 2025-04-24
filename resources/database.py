@@ -45,3 +45,11 @@ class Database:
         """
         self.session_factory.remove()
         self.engine.dispose()
+
+
+def initialize_database():
+    """
+    Initialize the database and create the tables.
+    """
+    db = Database()
+    db.create_tables()
