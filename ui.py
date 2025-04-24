@@ -31,8 +31,8 @@ class MainApplication(tk.Frame):
         # # Center window
         self.window_width = 250
         self.window_height = 100
-        screen_width = root.winfo_screenwidth()
-        screen_height = root.winfo_screenheight()
+        screen_width = self.parent.winfo_screenwidth()
+        screen_height = self.parent.winfo_screenheight()
 
         self.x_coordinate = (screen_width / 2) - (self.window_width / 2)
         self.y_coordinate = (screen_height / 2) - (self.window_height / 2)
@@ -45,7 +45,7 @@ class MainApplication(tk.Frame):
         self.style = ttk.Style()
         self.style.configure("TButton", padding=10, font=("Helvetica", 14))
 
-        self.run_button = ttk.Button(root, text="Run Script", command=self.button_clicked)
+        self.run_button = ttk.Button(self.parent, text="Run Script", command=self.button_clicked)
         self.run_button.pack(pady=20)
 
         self.wait_message = None
