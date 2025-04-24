@@ -61,8 +61,8 @@ class MainApplication(tk.Frame):
         # Display a "Please wait" message box
         self.wait_message = tk.Toplevel(self.parent)
         self.wait_message.title("Wait")
-        self.wait_message.geometry(f"{root.winfo_width()}x"
-                                   f"{root.winfo_height()}+"
+        self.wait_message.geometry(f"{self.parent.winfo_width()}x"
+                                   f"{self.parent.winfo_height()}+"
                                    f"{int(self.x_coordinate)}+"
                                    f"{int(self.y_coordinate)}")
 
