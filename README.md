@@ -84,7 +84,7 @@ pytest tests/unit
 To create an executable for the user interface, run the following command:
 
 ```bash
-python .build_ui.py
+python build_ui.py
 ```
 This will generate a .exe file in the ./dist directory. The UI allows users to run the script manually without needing to use the command line.
 
