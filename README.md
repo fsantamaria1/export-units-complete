@@ -80,6 +80,14 @@ Unit tests are provided to ensure the functionality of the database interactions
 pytest tests/unit
 ```
 
+### Building the UI
+To create an executable for the user interface, run the following command:
+
+```bash
+python build_ui.py
+```
+This will generate a .exe file in the ./dist directory. The UI allows users to run the script manually without needing to use the command line.
+
 Project Structure
 ```plaintext
 .
@@ -101,5 +109,7 @@ Project Structure
 ├── .env                     # Environment variables (not included in version control)
 ├── .env.example             # Example environment variables file
 ├── requirements.txt         # Python dependencies
+├── ui.py                    # User interface to run the script manually
+├── build_ui.py             # Create .exe file for the UI
 └── README.md                # Project documentation
 ```
