@@ -10,8 +10,8 @@ from resources.models import UnitsCompleteExport
 
 
 def run_stored_procedure(
-        schema=None,
-        procedure_name=None
+        schema: str = None,
+        procedure_name: str = None
 ) -> int:
     """
     Calls the specified stored procedure using the current database engine.
@@ -19,6 +19,7 @@ def run_stored_procedure(
     :param schema: The name of the schema where the procedure is stored
     :param procedure_name: The name of the stored procedure to call
     :return: The number of affected rows
+    :raises ValueError: If the schema or procedure name is invalid
     """
     # Get schema and procedure name from environment variables if not provided
     schema = schema or os.environ.get('schema_name')
