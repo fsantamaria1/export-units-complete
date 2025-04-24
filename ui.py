@@ -74,6 +74,7 @@ class MainApplication(tk.Frame):
 
         # Create a thread to run the main() function
         progress_thread = threading.Thread(target=self.run_main)
+        progress_thread.daemon = True  # Daemonize thread
         progress_thread.start()
 
     def run_main(self):
