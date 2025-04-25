@@ -1,5 +1,5 @@
 """
-This script will to run daily and create a CSV from data from the MS SQL database.
+This script will run daily and create a CSV from data from the MS SQL database.
 """
 import os
 import logging
@@ -53,10 +53,6 @@ def main():
                 raise ValueError("Missing CSV folder path")
             if not os.path.exists(csv_folder_path):
                 os.makedirs(csv_folder_path)
-            csv_file_path = os.path.join(
-                csv_folder_path,
-                f'units_complete_{latest_date.strftime("%Y-%m-%d-%H-%M-%S")}.csv'
-            )
 
             # Convert units_completed to a list of dictionaries
             units_completed_data = [unit.to_dict() for unit in units_completed]
@@ -64,12 +60,21 @@ def main():
             # Create a DataFrame from the list of dictionaries
             df = pd.DataFrame(units_completed_data)
 
-            # Save the DataFrame to a CSV file
-            with open(csv_file_path, 'w', newline='', encoding='utf-8') as csvfile:
-                df.to_csv(csvfile, index=False)
+            # Create a separate CSV file for each job_date
+            for job_date, group in df.groupby('job_date'):
+                try:
+                    safe_job_date = pd.to_datetime(job_date).strftime("%Y%m%d")
+                    file_name = f'UC_{latest_date.strftime("%Y%m%d%H%M%S")}_{safe_job_date}.csv'
+                    csv_file_path = os.path.join(csv_folder_path, file_name)
 
-            logging.info("CSV file created successfully: %s", csv_file_path)
-            logging.info("number of records: %d", len(units_completed_data))
+                    group.to_csv(csv_file_path, index=False)
+
+                    logging.info("CSV file created successfully: %s", csv_file_path)
+                    logging.info("Number of records for job_date %s: %d", job_date, len(group))
+                except Exception as e:
+                    logging.error("Failed to create CSV for job_date %s: %s", job_date, e)
+
+            logging.info("Total number of records: %d", len(units_completed_data))
             return affected_rows
         logging.warning("No rows were affected by the stored procedure execution.")
         logging.info("No data to process.")
