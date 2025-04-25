@@ -68,10 +68,11 @@ pip install -r requirements.txt
  - Exports the data to a CSV file in the specified folder.
 
 ### Example Output
-The CSV file will be saved in the csv_folder_path directory with a filename like:
+The CSV file(s) will be saved in the csv_folder_path directory with a filename like:
 ```plaintext
-units_complete_YYYY-MM-DD-HH-MM-SS.csv
+UC_YYYYMMDDHHMMSS_YYYYMMDD.csv
 ```
+Where the first date is the timestamp of the export and the second date is the job date.
 
 ### Testing
 Unit tests are provided to ensure the functionality of the database interactions and utility functions. To run the tests, use pytest:
@@ -86,7 +87,7 @@ To create an executable for the user interface, run the following command:
 ```bash
 python build_ui.py
 ```
-This will generate a .exe file in the ./dist directory. The UI allows users to run the script manually without needing to use the command line.
+This will generate `UC Export.exe` file in the `./dist` directory. The UI allows users to run the script manually without needing to use the command line.
 
 Project Structure
 ```plaintext
