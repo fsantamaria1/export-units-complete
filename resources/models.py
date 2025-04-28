@@ -26,13 +26,16 @@ class UnitsCompleteExport(Base):
     sub_report_id = Column(Integer, nullable=True)
     vendor_name = Column(NVARCHAR(30), nullable=True)
     date_created = Column(DATETIME, nullable=True)
+    in_closed_period = Column(Integer, nullable=True)
+    missing_from_budget = Column(Integer, nullable=True)
 
     def to_dict(self):
         """
         Convert the UnitsCompleteExport object to a dictionary.
         :return: A dictionary representation of the UnitsCompleteExport object.
         """
-        fields = ['job_date', 'job_number', 'phase_number', 'category_number', 'unit_change']
+        fields = ['job_date', 'job_number', 'phase_number', 'category_number',
+                  'unit_change', 'in_closed_period', 'missing_from_budget']
         data = {field: getattr(self, field) for field in fields}
         data['notes'] = self.get_notes()
         data['cost_code'] = self.get_cost_code()
