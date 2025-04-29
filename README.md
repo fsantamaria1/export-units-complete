@@ -73,6 +73,12 @@ The CSV file(s) will be saved in the csv_folder_path directory with a filename l
 UC_YYYYMMDDHHMMSS_YYYYMMDD.csv
 ```
 Where the first date is the timestamp of the export and the second date is the job date.
+Multiple files may be created if there are multiple job dates in the data. 
+
+Additionally, the script will create a separate file for data missing from the budget, named:
+```plaintext
+UC_YYYYMMDDHHMMSS_missing_from_budget.csv
+```
 
 ### Testing
 Unit tests are provided to ensure the functionality of the database interactions and utility functions. To run the tests, use pytest:
