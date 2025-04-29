@@ -2,6 +2,7 @@
 This module contains unit tests for the database functions.
 """
 from unittest.mock import MagicMock, patch
+import os
 import datetime
 import pytest
 from resources.db_functions import run_stored_procedure
@@ -41,15 +42,19 @@ class TestDbFunctionsUnit:
         """
         Test calling a stored procedure with None schema name.
         """
-        with pytest.raises(ValueError, match="Schema and procedure name must be provided."):
-            run_stored_procedure(None, "ValidProcedure")
+        with patch.dict("os.environ", {}, clear=True):
+            print(os.environ.get("schema_name"))
+            with pytest.raises(ValueError, match="Schema and procedure name must be provided."):
+                run_stored_procedure()
 
     def test_raises_error_when_procedure_name_is_none(self):
         """
         Test calling a stored procedure with None procedure name.
         """
-        with pytest.raises(ValueError, match="Schema and procedure name must be provided."):
-            run_stored_procedure("ValidSchema", None)
+        with patch.dict("os.environ", {}, clear=True):
+            print(os.environ.get("stored_procedure_name"))
+            with pytest.raises(ValueError, match="Schema and procedure name must be provided."):
+                run_stored_procedure()
 
     def test_raises_error_for_invalid_schema_name(self):
         """

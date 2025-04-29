@@ -44,6 +44,7 @@ class TestUnitsCompleteExport:
             "job_number": "123456",
             "phase_number": "Phase",
             "category_number": "Category",
+            "missing_from_budget": None,
             "unit_change": 100,
             "notes": export.get_notes(),
             "cost_code": export.get_cost_code(),
